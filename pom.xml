@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.2-SNAPSHOT</spring-cloud.version>
+  		<sonar.projectKey>nagp-devops</sonar.projectKey>
+  		<sonar.web.port>7000</sonar.web.port>
 	</properties>
 	<dependencies>
 		<dependency>
