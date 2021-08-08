@@ -19,10 +19,12 @@ pipeline {
                 bat "${mvnCmd} clean package"
             }
         }
-        stage('Run unit test cases') {
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Running unit test cases'
-                bat "${mvnCmd} test"
+               echo 'starting sonarqube analysis'
+               withSonarQubeEnv('sonarQube') {
+                  bat "${mvnCmd} sonar:sonar"
+               } 
             }
         }
         stage('build docker image') {
