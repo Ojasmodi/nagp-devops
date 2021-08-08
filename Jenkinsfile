@@ -13,11 +13,11 @@ pipeline {
     }
 
     stages {
-        stage('code checkout') {
-            steps {
-                scm checkout
-            }
-        }
+        // stage('code checkout') {
+        //     steps {
+        //         scm checkout
+        //     }
+        // }
         stage('code build') {
             steps {
                 echo 'Code build process'
