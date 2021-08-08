@@ -13,11 +13,6 @@ pipeline {
     }
 
     stages {
-        // stage('code checkout') {
-        //     steps {
-        //         scm checkout
-        //     }
-        // }
         stage('code build') {
             steps {
                 echo 'Code build process'
@@ -43,40 +38,39 @@ pipeline {
                 echo 'Creating docker image'
                 bat "docker build -t i_${userName}_${branchName} --no-cache -f Dockerfile ."
             }
-        }
-        stage('pushing docker image') {
-            steps {
-                echo 'Pushing image to docker hub'
-                bat "docker tag i_${userName}_${branchName} ${registry}:${BUILD_NUMBER}"
-                bat "docker tag i_${userName}_${branchName} ${registry}:latest"
-                withCredentials([string(credentialsId: 'dockerPwd', variable: 'dockerCred')]) {
-                   bat "docker login -u ${userName} -p ${dockerCred}" 
-                }
-                bat "docker push ${registry}:${BUILD_NUMBER}"
-                bat "docker push ${registry}:latest"
-            }
         }*/
-        stage('pre-container check') {
-            steps {
-                echo 'Removing container if exists'
-                script{
-                    try{
+        parallel{
+            stage('Pre-container-check') {
+                steps {
+                    echo 'Removing container if exists'
+                    script{
                         bat "docker rm c-${userName}-${branchName} --force"
-                        echo "Removed already present container c-${userName}-${branchName} successfully."
-                    }
-                    catch(err){
-                        echo "Container c-${userName}-${branchName} does not exist."
+                        echo "Removed container c-${userName}-${branchName} if present."
                     }
                 }
             }
-        }
 
-        stage('docker deployment') {
+            stage('pushing docker image') {
+                steps {
+                    echo 'Pushing image to docker hub'
+                    bat "docker tag i_${userName}_${branchName} ${registry}:${BUILD_NUMBER}"
+                    bat "docker tag i_${userName}_${branchName} ${registry}:latest"
+                    withCredentials([string(credentialsId: 'dockerPwd', variable: 'dockerCred')]) {
+                       bat "docker login -u ${userName} -p ${dockerCred}" 
+                    }
+                    bat "docker push ${registry}:${BUILD_NUMBER}"
+                    bat "docker push ${registry}:latest"
+                }
+            }
+        }
+        
+         stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
                 bat "docker run --name c-${userName}-${branchName} -d -p 7200:8081 ${registry}:latest"
             }
         }
+        
         stage('k8s deployment') {
             steps {
                 echo 'Deploying on kubernetes'
