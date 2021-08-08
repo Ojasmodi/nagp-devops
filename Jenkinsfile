@@ -8,7 +8,7 @@ pipeline {
         mvnCmd = "${mvnHome}/bin/mvn"
         project_id= "nagp-k8s-assignment"
         cluster_name= "devops-final-assignment"
-        branchName= "master"
+        branchName= "develop"
         zone="us-central1-c"
     }
 

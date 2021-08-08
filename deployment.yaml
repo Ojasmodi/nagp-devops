@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nagp-app-deployment
+  name: nagp-app-deployment-develop
   namespace: kubernetes-cluster-ojasmodi
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: devops-app
+      app: devops-app-develop
   template:
     metadata:
       labels:
-        app: devops-app
+        app: devops-app-develop
     spec:
       containers:
         - name: c-ojasmodi-master

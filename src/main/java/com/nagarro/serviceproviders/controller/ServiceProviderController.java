@@ -10,7 +10,7 @@ public class ServiceProviderController {
 
 	@GetMapping()
 	public String getServiceProvider() {
-		return "Response from master branch";
+		return "Response from develop branch";
 	}
 
 }
