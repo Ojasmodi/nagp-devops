@@ -14,7 +14,9 @@ pipeline {
 
     stages {
         stage('code checkout') {
-            scm checkout
+            steps {
+                scm checkout
+            }
         }
         stage('code build') {
             steps {
@@ -64,6 +66,7 @@ pipeline {
             steps {
                 echo 'Deploying on kubernetes'
                 bat "gcloud container clusters get-credentials ${cluster_name} --zone ${zone} --project ${project_id}"
+                bat "kubectl apply -f namespace.yaml"
                 bat "kubectl get all"
             }
         }
