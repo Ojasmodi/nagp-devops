@@ -37,7 +37,7 @@ pipeline {
                   bat "${mvnCmd} sonar:sonar"
                } 
             }
-        }*/
+        }
         stage('build docker image') {
             steps {
                 echo 'Creating docker image'
@@ -55,7 +55,7 @@ pipeline {
                 bat "docker push ${registry}:${BUILD_NUMBER}"
                 bat "docker push ${registry}:latest"
             }
-        }
+        }*/
         stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
