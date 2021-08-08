@@ -59,7 +59,7 @@ pipeline {
         stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
-                bat "docker run --name c-${userName}-${branchName} -d -p 7200:8081 ${registry}:${BUILD_NUMBER}"
+                bat "docker run --name c-${userName}-${branchName} -d -p 7200:8081 ${registry}:latest"
             }
         }
         stage('k8s deployment') {
