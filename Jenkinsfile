@@ -39,32 +39,34 @@ pipeline {
                 bat "docker build -t i_${userName}_${branchName} --no-cache -f Dockerfile ."
             }
         }
-        parallel{
-            stage('Pre-container-check') {
-                steps {
-                    echo 'Removing container if exists'
-                    script{
-                        bat "docker rm c-${userName}-${branchName} --force"
-                        echo "Removed container c-${userName}-${branchName} if present."
+        stage('cotainers')
+            parallel{
+                stage('Pre-container-check') {
+                    steps {
+                        echo 'Removing container if exists'
+                        script{
+                            bat "docker rm c-${userName}-${branchName} --force"
+                            echo "Removed container c-${userName}-${branchName} if present."
+                        }
                     }
                 }
-            }
 
-            stage('pushing docker image') {
-                steps {
-                    echo 'Pushing image to docker hub'
-                    bat "docker tag i_${userName}_${branchName} ${registry}:${BUILD_NUMBER}"
-                    bat "docker tag i_${userName}_${branchName} ${registry}:latest"
-                    withCredentials([string(credentialsId: 'dockerPwd', variable: 'dockerCred')]) {
-                       bat "docker login -u ${userName} -p ${dockerCred}" 
+                stage('pushing docker image') {
+                    steps {
+                        echo 'Pushing image to docker hub'
+                        bat "docker tag i_${userName}_${branchName} ${registry}:${BUILD_NUMBER}"
+                        bat "docker tag i_${userName}_${branchName} ${registry}:latest"
+                        withCredentials([string(credentialsId: 'dockerPwd', variable: 'dockerCred')]) {
+                        bat "docker login -u ${userName} -p ${dockerCred}" 
+                        }
+                        bat "docker push ${registry}:${BUILD_NUMBER}"
+                        bat "docker push ${registry}:latest"
                     }
-                    bat "docker push ${registry}:${BUILD_NUMBER}"
-                    bat "docker push ${registry}:latest"
                 }
             }
         }
         
-         stage('docker deployment') {
+        stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
                 bat "docker run --name c-${userName}-${branchName} -d -p 7200:8081 ${registry}:latest"
