@@ -39,7 +39,7 @@ pipeline {
                 bat "docker build -t i_${userName}_${branchName} --no-cache -f Dockerfile ."
             }
         }
-        stage('cotainers')
+        stage('cotainers'){
             parallel{
                 stage('Pre-container-check') {
                     steps {
