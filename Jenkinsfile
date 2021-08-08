@@ -14,10 +14,7 @@ pipeline {
 
     stages {
         stage('code checkout') {
-            steps {
-                echo 'Checking out code'
-                git 'https://github.com/Ojasmodi/nagp-devops.git'
-            }
+            scm checkout
         }
         stage('code build') {
             steps {
@@ -60,7 +57,7 @@ pipeline {
         stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
-                bat "docker run --name c-${userName}-${branchName} -d -p 8081:7200 ${registry}:${BUILD_NUMBER}"
+                bat "docker run --name c-${userName}-${branchName} -d -p 7200:8081 ${registry}:${BUILD_NUMBER}"
             }
         }
         stage('k8s deployment') {
