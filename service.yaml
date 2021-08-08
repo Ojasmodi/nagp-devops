@@ -1,0 +1,15 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "nagp-app-lb"
+  namespace: kubernetes-cluster-ojasmodi
+  labels:
+    app: "nagp-app-lb"
+spec:
+  ports:
+    - protocol: TCP
+      port: 30157
+      targetPort: 8081
+  selector:
+    app: devops-app
+  type: "LoadBalancer"

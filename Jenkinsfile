@@ -67,7 +67,8 @@ pipeline {
                 echo 'Deploying on kubernetes'
                 bat "gcloud container clusters get-credentials ${cluster_name} --zone ${zone} --project ${project_id}"
                 bat "kubectl apply -f deployment.yaml"
-                bat "kubectl get all"
+                bat "kubectl apply -f service.yaml"
+                echo "app deployed succesfully on k8s"
             }
         }
         
