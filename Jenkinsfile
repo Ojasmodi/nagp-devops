@@ -69,7 +69,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
         stage('docker deployment') {
             steps {
