@@ -56,6 +56,21 @@ pipeline {
                 bat "docker push ${registry}:latest"
             }
         }*/
+        stage('pre-container check') {
+            steps {
+                echo 'Removing container if exists'
+                script{
+                    try{
+                        bat "docker rm c-${userName}-${branchName} --force"
+                        echo "Removed already present container c-${userName}-${branchName} successfully."
+                    }
+                    catch(err){
+                        echo "Container c-${userName}-${branchName} does not exist."
+                    }
+                }
+            }
+        }*/
+
         stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
