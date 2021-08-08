@@ -32,13 +32,13 @@ pipeline {
                   bat "${mvnCmd} sonar:sonar"
                } 
             }
-        }
+        }*/
         stage('build docker image') {
             steps {
                 echo 'Creating docker image'
                 bat "docker build -t i_${userName}_${branchName} --no-cache -f Dockerfile ."
             }
-        }*/
+        }
         parallel{
             stage('Pre-container-check') {
                 steps {
