@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/nagp")
+@RequestMapping("/home")
 public class ServiceProviderController {
 
 	@GetMapping()
 	public String getServiceProvider() {
-		return "Welcome to NAGP DevOps";
+		return "Response from master branch";
 	}
 
 }

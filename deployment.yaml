@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nagp-app-deployment
+  namespace: kubernetes-cluster-ojasmodi
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: devops-app
+  template:
+    metadata:
+      labels:
+        app: devops-app
+    spec:
+      containers:
+        - name: : c-ojasmodi-master
+          image: i-ojasmodi-master:latest
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+          resources:
+            requests: 
+              memory: "250Mi"
+              cpu: "250m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"     
+
+
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "nagp-app-lb"
+  namespace: kubernetes-cluster-ojasmodi
+  labels:
+    app: "nagp-app-lb"
+spec:
+  ports:
+    -protocol: TCP
+     port: 30157
+     targetPort: 8081
+  selector:
+    app: devops-app
+  type: "LoadBalancer"  
