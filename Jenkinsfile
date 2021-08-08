@@ -61,7 +61,7 @@ pipeline {
         stage('docker deployment') {
             steps {
                 echo 'Deploying docker image'
-                bat "docker run --name c-${userName}-${branchName} -d -p 7200:8081 ${registry}:latest"
+                bat "docker run --name c-${userName}-${branchName} -d -p 7300:8081 ${registry}:latest"
             }
         }
         
