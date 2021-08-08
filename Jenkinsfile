@@ -2,13 +2,13 @@ pipeline {
     agent any
     
     environment{
+        branchName="master"
         userName='ojasmodi'
-        registry='ojasmodi/serviceprovider-nagp'
+        registry="${userName}/serviceprovider-nagp-${branchName}"
         mvnHome=tool name: 'Maven', type: 'maven'
         mvnCmd = "${mvnHome}/bin/mvn"
         project_id= "nagp-k8s-assignment"
         cluster_name= "devops-final-assignment"
-        branchName= "master"
         zone="us-central1-c"
     }
 
