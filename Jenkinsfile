@@ -19,27 +19,19 @@ pipeline {
                 bat "${mvnCmd} clean package"
             }
         }
-        /*stage('Run unit test cases') {
+        stage('Run unit test cases') {
             steps {
                 echo 'Running unit test cases'
                 bat "${mvnCmd} test"
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-               echo 'starting sonarqube analysis'
-               withSonarQubeEnv('sonarQube') {
-                  bat "${mvnCmd} sonar:sonar"
-               } 
-            }
-        }*/
         stage('build docker image') {
             steps {
                 echo 'Creating docker image'
                 bat "docker build -t i_${userName}_${branchName} --no-cache -f Dockerfile ."
             }
         }
-        stage('cotainers'){
+        stage('containers'){
             parallel{
                 stage('Pre-container-check') {
                     steps {
